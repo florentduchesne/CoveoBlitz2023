@@ -74,7 +74,7 @@ def economiser(gm: GameMessage):
             
     for tower in area.towers:
         if tower.type == TowerType.SPEAR_SHOOTER:
-            nbAttaque += 2
+            nbAttaque += 1
         else:
-            nbAttaque += 11 #depende des autres types de tour
+            nbAttaque += 5 #depende des autres types de tour
     return nbAttaque > nbEnnemie
