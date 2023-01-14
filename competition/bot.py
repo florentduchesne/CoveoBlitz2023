@@ -14,7 +14,7 @@ class Bot:
     def liste_achat():
         types_tours = [TowerType.SPEAR_SHOOTER, TowerType.BOMB_SHOOTER]
         i = 0
-        for _ in range(20):
+        for _ in range(300):
             yield TowerType.SPEAR_SHOOTER
         while True:
             if i == len(types_tours):

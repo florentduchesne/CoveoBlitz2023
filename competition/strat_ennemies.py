@@ -15,7 +15,7 @@ def get_ennemies_type(game_message: GameMessage) -> EnemyType:
         enemy_type = EnemyType.LVL4
     elif round <= 9:
         enemy_type = EnemyType.LVL5
-    elif round <= 11:
+    else:
         enemy_type = EnemyType.LVL8
 
     return enemy_type
