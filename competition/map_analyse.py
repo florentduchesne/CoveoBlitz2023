@@ -17,9 +17,7 @@ def position_generator_2d(position: Position):
 def parcourir_chemins(game_message: GameMessage):
     arr = np.zeros((game_message.map.height, game_message.map.width))
     for chemin in game_message.map.paths:
-        print('chemin', chemin)
         for tuile1 in chemin.tiles:
-            print('tuile1', tuile1)
             for tuile2 in position_generator_2d(tuile1):
                 if tuile2.x < 0 or tuile2.x >= game_message.map.width or tuile2.y < 0 or tuile2.y >= game_message.map.height:
                     continue
@@ -27,7 +25,6 @@ def parcourir_chemins(game_message: GameMessage):
                 for tower in game_message.playAreas[game_message.teamId].towers:
                     if tuile2 == tower.position:
                         is_valid = False
-                #print(game_message.map.obstacles)
                 for path in game_message.map.paths:
                     if tuile2 in path.tiles:
                         is_valid = False
@@ -35,10 +32,7 @@ def parcourir_chemins(game_message: GameMessage):
                     is_valid = False
                 if is_valid:
                     arr[tuile2.y, tuile2.x] += 1
-    #plt.imshow(arr)
-    #plt.show()
     return arr
-
 
 
 def get_meilleure_position(heat_array):
