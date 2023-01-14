@@ -66,11 +66,26 @@ def economiser(gm: GameMessage):
     teamId = gm.teamId
     area = gm.playAreas.get(teamId)
 
+    types = {
+        EnemyType.LVL1: 1,
+        EnemyType.LVL2: 1,
+        EnemyType.LVL3: 1,
+        EnemyType.LVL4: 1,
+        EnemyType.LVL5: 1,
+        EnemyType.LVL6: 6,
+        EnemyType.LVL7: 7,
+        EnemyType.LVL8: 8,
+        EnemyType.LVL9: 9,
+        EnemyType.LVL10: 10,
+        EnemyType.LVL11: 11,
+        EnemyType.LVL12: 12
+    }
+
     nbAttaque = 0
     nbEnnemie = 0
     for ennemie in area.enemies:
         if not ennemie.isKilled and not ennemie.hasEndedPath:
-            nbEnnemie += 1
+            nbEnnemie += types.get(ennemie.type)
             
     for tower in area.towers:
         if tower.type == TowerType.SPEAR_SHOOTER:
