@@ -61,3 +61,20 @@ def get_meilleure_position(heat_array):
     positions = np.where(heat_array == heat_array.max())
     i = random.randint(0, len(positions[0]) - 1)
     return Position(int(positions[1][i]), int(positions[0][i]))
+   
+def economiser(gm: GameMessage):
+    teamId = gm.teamId
+    area = gm.playAreas.get(teamId)
+
+    nbAttaque = 0
+    nbEnnemie = 0
+    for ennemie in area.enemies:
+        if not ennemie.isKilled and not ennemie.hasEndedPath:
+            nbEnnemie += 1
+            
+    for tower in area.towers:
+        if tower.type == TowerType.SPEAR_SHOOTER:
+            nbAttaque += 2
+        else:
+            nbAttaque += 11 #depende des autres types de tour
+    return nbAttaque > nbEnnemie
