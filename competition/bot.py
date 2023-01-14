@@ -30,10 +30,8 @@ class Bot:
             if teamId != otherTeamId and gm.teamInfos.get(otherTeamId).isAlive:
                 teams.append(gm.teamInfos.get(otherTeamId))
         
-        if len(teams) <= 2:
-             teams.sort(key=lambda x : x.hp, reverse=True)
-        else:
-            teams.sort(key=lambda x : len(gm.playAreas.get(x.id).enemyReinforcementsQueue), reverse=False)
+        teams.sort(key=lambda x : x.hp, reverse=False)
+        
         return teams
 
     def get_next_move(self, game_message: GameMessage):
