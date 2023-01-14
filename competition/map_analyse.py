@@ -76,13 +76,13 @@ def economiser(gm: GameMessage):
         EnemyType.LVL3: 1,
         EnemyType.LVL4: 1,
         EnemyType.LVL5: 1,
-        EnemyType.LVL6: 6,
-        EnemyType.LVL7: 7,
-        EnemyType.LVL8: 8,
+        EnemyType.LVL6: 4,
+        EnemyType.LVL7: 5,
+        EnemyType.LVL8: 6,
         EnemyType.LVL9: 9,
-        EnemyType.LVL10: 10,
-        EnemyType.LVL11: 11,
-        EnemyType.LVL12: 12
+        EnemyType.LVL10: 8,
+        EnemyType.LVL11: 9,
+        EnemyType.LVL12: 10
     }
 
     nbAttaque = 0

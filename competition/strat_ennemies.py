@@ -30,7 +30,7 @@ def get_ennemies_by_round(game_message: GameMessage) -> EnemyType:
     round = game_message.round
     cash = game_message.teamInfos[game_message.teamId].money
     enemy_type = EnemyType.LVL1
-    if cash > 1500:
+    if cash > 1200:
         plus_rapide = []
         for etype in game_message.shop.reinforcements:
             plus_rapide.append((etype, game_message.shop.reinforcements[etype].delayPerSpawnInTicks))
