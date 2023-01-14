@@ -1,6 +1,7 @@
 from game_message import *
 from actions import *
 import map_analyse
+import strat_ennemies
 
 class Bot:
     def __init__(self):
@@ -22,6 +23,7 @@ class Bot:
         actions.append(BuildAction(TowerType.SPEAR_SHOOTER, position))
 
         if other_team_ids:
-            actions.append(SendReinforcementsAction(EnemyType.LVL1, other_team_ids[0]))
+            ennemies_type = strat_ennemies.get_ennemies_type(game_message)
+            actions.append(SendReinforcementsAction(ennemies_type, other_team_ids[0]))
 
         return actions
