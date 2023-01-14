@@ -65,6 +65,10 @@ def get_meilleure_position(heat_array):
 def economiser(gm: GameMessage):
     teamId = gm.teamId
     area = gm.playAreas.get(teamId)
+    
+    puissance = {
+        
+    }
 
     types = {
         EnemyType.LVL1: 1,
