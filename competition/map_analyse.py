@@ -5,13 +5,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def position_generator_1d(position: Position):
-    for x in range(-1, 1):
-        for y in range(-1, 1):
+    for x in range(-1, 2):
+        for y in range(-1, 2):
             yield Position(position.x + x, position.y + y)
 
 def position_generator_2d(position: Position):
-    for x in range(-2, 2):
-        for y in range(-2, 2):
+    for x in range(-2, 3):
+        for y in range(-2, 3):
             yield Position(position.x + x, position.y + y)
 
 def parcourir_chemins(game_message: GameMessage, id_chemin:int, portee:int):
