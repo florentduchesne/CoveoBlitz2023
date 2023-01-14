@@ -2,12 +2,14 @@ from game_message import *
 from actions import *
 import map_analyse
 import strat_ennemies
+import numpy as np
 
 class Bot:
     def __init__(self):
         print("Initializing your super mega duper bot")
         self.liste_achat = Bot.liste_achat()
         self.prochain_achat = next(self.liste_achat)
+        self.prochain_chemin = 0
 
     def liste_achat():
         types_tours = [TowerType.SPEAR_SHOOTER, TowerType.BOMB_SHOOTER]
@@ -39,18 +41,27 @@ class Bot:
         other_team_ids = [team for team in game_message.teams if team != game_message.teamId]
         actions = list()
         
-        heatmap = map_analyse.parcourir_chemins(game_message)
-        position = map_analyse.get_meilleure_position(heatmap)
+        chemin_depart = self.prochain_chemin
         
-        #nb_tours = len(game_message.playAreas[game_message.teamId].towers)
+        heatmap = map_analyse.parcourir_chemins(game_message, self.prochain_chemin, 2)
+        while heatmap.max() == 0:#aucune tour possible autour du chemin selectionne
+            self.prochain_chemin += 1
+            if self.prochain_chemin == len(game_message.map.paths):
+                self.prochain_chemin = 0
+            if chemin_depart == self.prochain_chemin:
+                #on a remplit le plateau au complet, on devrait commencer a remplacer des tours
+                break
+            heatmap = map_analyse.parcourir_chemins(game_message, self.prochain_chemin, 2)
+        position = map_analyse.get_meilleure_position(heatmap)
         
         otherTeams = self.sortOtherTeams(game_message)
         
-        print(game_message.shop.towers[self.prochain_achat].price)
-        print(game_message.teamInfos[game_message.teamId].money)
         if game_message.shop.towers[self.prochain_achat].price <= game_message.teamInfos[game_message.teamId].money:
             actions.append(BuildAction(self.prochain_achat, position))
             self.prochain_achat = next(self.liste_achat)
+            self.prochain_chemin += 1
+            if self.prochain_chemin == len(game_message.map.paths):
+                self.prochain_chemin = 0
 
         if other_team_ids:
             ennemies_type = strat_ennemies.get_ennemies_type(game_message)
