@@ -28,19 +28,24 @@ def get_ennemies_type(game_message: GameMessage) -> EnemyType:
 
 def get_ennemies_by_round(game_message: GameMessage) -> EnemyType:
     round = game_message.round
+    cash = game_message.teamInfos[game_message.teamId].money
     enemy_type = EnemyType.LVL1
-
-    if round <= 3:
-        enemy_type = EnemyType.LVL2
-    elif round <= 4:
-        enemy_type = EnemyType.LVL5
-    elif round <= 5:
-        enemy_type = EnemyType.LVL3
-    elif round <= 7:
-        enemy_type = EnemyType.LVL4
-    elif round <= 9:
-        enemy_type = EnemyType.LVL5
+    if cash > 1500:
+        plus_rapide = []
+        for etype in game_message.shop.reinforcements:
+            plus_rapide.append((etype, game_message.shop.reinforcements[etype].delayPerSpawnInTicks))
+        plus_rapide.sort(key=lambda a: a[1])
+        return plus_rapide[0][0]
     else:
-        enemy_type = EnemyType.LVL8
+        if round <= 3:
+            enemy_type = EnemyType.LVL2
+        elif round <= 4:
+            enemy_type = EnemyType.LVL1
+        elif round <= 6:
+            enemy_type = EnemyType.LVL4
+        elif round <= 9:
+            enemy_type = EnemyType.LVL5
+        else:
+            enemy_type = EnemyType.LVL8
 
     return enemy_type
