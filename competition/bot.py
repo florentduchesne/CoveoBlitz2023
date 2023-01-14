@@ -1,6 +1,6 @@
 from game_message import *
 from actions import *
-
+import random
 
 class Bot:
     def __init__(self):
@@ -11,11 +11,16 @@ class Bot:
         Here is where the magic happens, for now the moves are not very good. I bet you can do better ;)
         """
 
+        width, height = (game_message.map.width, game_message.map.height)
+
+        tower_x = random.randint(0, width)
+        tower_y = random.randint(0, height)
+
         other_team_ids = [team for team in game_message.teams if team != game_message.teamId]
         actions = list()
 
         actions.append(SellAction(Position(0, 0)))
-        actions.append(BuildAction(TowerType.SPEAR_SHOOTER, Position(0, 0)))
+        actions.append(BuildAction(TowerType.SPEAR_SHOOTER, Position(tower_x, tower_y)))
 
         if other_team_ids:
             actions.append(SendReinforcementsAction(EnemyType.LVL1, other_team_ids[0]))
