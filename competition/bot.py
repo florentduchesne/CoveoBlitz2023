@@ -1,6 +1,7 @@
 from game_message import *
 from actions import *
 import map_analyse
+import strat_ennemies
 
 class Bot:
     def __init__(self):
@@ -19,6 +20,16 @@ class Bot:
             yield types_tours[i]
             i += 1
             
+    
+    def sortOtherTeams(self, gm: GameMessage):
+        teams = list()
+        teamId = gm.teamId
+        for otherTeamId in gm.teams:
+            if teamId != otherTeamId:
+                teams.append(gm.teamInfos.get(otherTeamId))
+        
+        teams.sort(key=lambda x : x.hp, reverse=True)
+        return teams
 
     def get_next_move(self, game_message: GameMessage):
         """
@@ -31,10 +42,10 @@ class Bot:
         heatmap = map_analyse.parcourir_chemins(game_message)
         position = map_analyse.get_meilleure_position(heatmap)
         
-        nb_tours = len(game_message.playAreas[game_message.teamId].towers)
+        #nb_tours = len(game_message.playAreas[game_message.teamId].towers)
         
-
-        #actions.append(SellAction(Position(0, 0)))
+        otherTeams = self.sortOtherTeams(game_message)
+        
         print(game_message.shop.towers[self.prochain_achat].price)
         print(game_message.teamInfos[game_message.teamId].money)
         if game_message.shop.towers[self.prochain_achat].price <= game_message.teamInfos[game_message.teamId].money:
@@ -42,6 +53,7 @@ class Bot:
             self.prochain_achat = next(self.liste_achat)
 
         if other_team_ids:
-            actions.append(SendReinforcementsAction(EnemyType.LVL1, other_team_ids[0]))
+            ennemies_type = strat_ennemies.get_ennemies_type(game_message)
+            actions.append(SendReinforcementsAction(ennemies_type, otherTeams[0].id))
 
         return actions
