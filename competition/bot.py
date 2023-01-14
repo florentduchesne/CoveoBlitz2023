@@ -19,7 +19,7 @@ class Bot:
         other_team_ids = [team for team in game_message.teams if team != game_message.teamId]
         actions = list()
 
-        actions.append(SellAction(Position(0, 0)))
+        # actions.append(SellAction(Position(0, 0)))
         actions.append(BuildAction(TowerType.SPEAR_SHOOTER, Position(tower_x, tower_y)))
 
         if other_team_ids:
