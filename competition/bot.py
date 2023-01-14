@@ -62,14 +62,20 @@ class Bot:
         otherTeams = self.sortOtherTeams(game_message)
         
         if game_message.shop.towers[self.prochain_achat].price <= game_message.teamInfos[game_message.teamId].money:
-            actions.append(BuildAction(self.prochain_achat, position))
-            self.prochain_achat = next(self.liste_achat)
-            self.prochain_chemin += 1
-            if self.prochain_chemin == len(game_message.map.paths):
-                self.prochain_chemin = 0
+            if not map_analyse.economiser(game_message):
+                actions.append(BuildAction(self.prochain_achat, position))
+                self.prochain_achat = next(self.liste_achat)
+                self.prochain_chemin += 1
+                if self.prochain_chemin == len(game_message.map.paths):
+                    self.prochain_chemin = 0
 
         if other_team_ids:
             ennemies_type = strat_ennemies.get_ennemies_type(game_message)
-            actions.append(SendReinforcementsAction(ennemies_type, otherTeams[0].id))
+            if ennemies_type is not None:
+                cash = game_message.teamInfos[game_message.teamId].money
+                if game_message.round >= 1:
+                    while cash > game_message.shop.reinforcements[ennemies_type].price:
+                        cash -= game_message.shop.reinforcements[ennemies_type].price
+                        actions.append(SendReinforcementsAction(ennemies_type, otherTeams[0].id))
 
         return actions
