@@ -31,7 +31,11 @@ class Bot:
                 teams.append(gm.teamInfos.get(otherTeamId))
         
         teams.sort(key=lambda x : x.hp, reverse=False)
-        
+
+        if len(teams) > 1:
+            if len(gm.playAreas.get(teams[0].id).enemyReinforcementsQueue) >= 7:
+                teams.pop(0)
+
         return teams
 
     def get_next_move(self, game_message: GameMessage):
