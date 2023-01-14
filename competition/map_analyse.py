@@ -3,6 +3,7 @@ from actions import *
 
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 def position_generator_1d(position: Position):
     for x in range(-1, 2):
@@ -57,21 +58,10 @@ def parcourir_chemins(game_message: GameMessage, id_chemin:int, portee:int):
 
 
 def get_meilleure_position(heat_array):
-
-    bestPosX = -1
-    bestPosY = -1
-    bestPosScore = -1
-
-    for j in range(len(heat_array)):
-        for i in range(len(heat_array[j])):
-            if heat_array[j][i] > bestPosScore:
-                bestPosX = i
-                bestPosY = j
-                bestPosScore = heat_array[j][i]
-
-    return Position(bestPosX, bestPosY)
-            
-            
+    positions = np.where(heat_array == heat_array.max())
+    i = random.randint(0, len(positions[0]) - 1)
+    return Position(int(positions[1][i]), int(positions[0][i]))
+   
 def economiser(gm: GameMessage):
     teamId = gm.teamId
     area = gm.playAreas.get(teamId)
@@ -88,7 +78,3 @@ def economiser(gm: GameMessage):
         else:
             nbAttaque += 11 #depende des autres types de tour
     return nbAttaque > nbEnnemie
-            
-
-
-            
